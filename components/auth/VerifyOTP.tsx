@@ -22,7 +22,7 @@ const VerifyOTP = () => {
 
 
     try {
-      const response = await axios.post('http://localhost:8080/auth/verifySignUpOtp', userData, {
+      const response = await axios.post('https://auth-server-bun.onrender.com/auth/verifySignUpOtp', userData, {
         headers: {
           'Content-Type': 'application/json',
           

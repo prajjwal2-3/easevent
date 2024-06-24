@@ -17,7 +17,7 @@ const Signup = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:8080/auth/signUp', userData);
+      const response = await axios.post('https://auth-server-bun.onrender.com/auth/signUp', userData);
 
       if (response.status === 200) {
         console.log('Signup successful:', response.data);
