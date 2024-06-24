@@ -5,15 +5,11 @@ import axios from 'axios';
 const VerifyOTP = () => {
   const [otp, setOtp] = useState('');
   const [cookie,setcookie]=useState()
-  function getCookie(name: string) {
-    const refreshToken = document.cookie
-    console.log(refreshToken)
-  }
+ 
   
-  // Example usage
-  const cookieName = "my_cookie";
-  const cookieValue = getCookie(cookieName);
-  console.log(cookieValue);
+  
+  
+ 
   
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -23,15 +19,13 @@ const VerifyOTP = () => {
     };
 
     // Retrieve cookies
-    const refreshToken = document?.cookie?.split('; ').find(row => row.startsWith('refresh_token='))?.split('=')[1];
-    const acessToken = document?.cookie?.split('; ').find(row => row.startsWith('access_token='))?.split('=')[1];
+
 
     try {
       const response = await axios.post('http://localhost:8080/auth/verifySignUpOtp', userData, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${acessToken}`,
-          'refreshtoken':refreshToken
+          
           
         },
         withCredentials:true
@@ -66,11 +60,8 @@ const VerifyOTP = () => {
         </button>
         
       </form>
-      <button className='bg-green-400 p-3 m-3 rounded text-white font-semibold' onClick={()=>{
-            getCookie('refreshToken')
-        }
-
-        }>Get cookies</button>
+      <button className='bg-green-400 p-3 m-3 rounded text-white font-semibold' 
+        >Get cookies</button>
         
     </div>
   );
