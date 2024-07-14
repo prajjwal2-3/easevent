@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   name_validator,
@@ -20,6 +20,8 @@ import {
 } from "@/lib/Validator";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
+import { signOut } from "next-auth/react";
+import { ToastAction } from "../ui/toast";
 const uservalidation = z.object({
   username: name_validator,
   email: email_validator,
@@ -28,6 +30,11 @@ const uservalidation = z.object({
   password: password_validator,
 });
 export default function Signup() {
+    useEffect(() => {
+        signOut({
+          redirect: false,
+        });
+      }, []);
   const router = useRouter();
   const { toast } = useToast();
   const [user, setuser] = useState({
@@ -46,10 +53,13 @@ export default function Signup() {
     }));
   }
   async function registerUser() {
+    
     const validation = uservalidation.safeParse(user);
     if (!validation.success) {
       const errors = validation.error.errors.map((err) => err.message);
+      console.log(errors)
       toast({ title: errors.toLocaleString() });
+      return
     }
     try {
       setisloading(true);
@@ -83,6 +93,7 @@ export default function Signup() {
                   id="email"
                   placeholder="Jackdaniels@gmail.com"
                   onChange={handleChange}
+                  disabled={isloading}
                 />
               </section>
               <section>
@@ -93,6 +104,7 @@ export default function Signup() {
                   id="username"
                   placeholder="Jackdaniels@cool"
                   onChange={handleChange}
+                  disabled={isloading}
                 />
               </section>
             </div>
@@ -105,6 +117,7 @@ export default function Signup() {
                   id="firstname"
                   placeholder="Jack"
                   onChange={handleChange}
+                  disabled={isloading}
                 />
               </section>
               <section>
@@ -115,6 +128,7 @@ export default function Signup() {
                   id="lastname"
                   placeholder="Daniel"
                   onChange={handleChange}
+                  disabled={isloading}
                 />
               </section>
             </div>
@@ -127,12 +141,14 @@ export default function Signup() {
                 placeholder="Jackdaniel@1123"
                 type="password"
                 onChange={handleChange}
+                disabled={isloading}
               />
             </section>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex ">
+      
         <Button type="submit" onClick={registerUser} className="w-full">
           Sign Up
         </Button>
