@@ -2,13 +2,15 @@
 
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-
+import { Separator } from "../ui/separator"
 export default function SheetContentClient() {
     const pathname = usePathname()
     let actualroute = pathname==='/'?'/':pathname.slice(1)
     const routes = ['/','Events','About','Contact']
   return (
-    <div className="p-5 text-black flex flex-col gap-2">
+    <div className=" text-black flex flex-col gap-2">
+      <p className="text-3xl font-semibold text-slate-800">Easevent</p>
+      <Separator/>
      {routes.map((e)=>(
       
       <>

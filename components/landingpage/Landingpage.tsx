@@ -5,7 +5,7 @@ export default function Landingpage() {
     <div className="h-full ">
      <div className='h-[28rem] w-full'>
         <div className="absolute w-full h-[28rem] bg-black/30 flex justify-center items-center">
-        <p className='text-white text-5xl  font-semibold'>Dont Miss Out! <br /> <span className=''> Explore the <span
+        <p className='text-white text-5xl p-5 xl:p-0 font-semibold'>Dont Miss Out! <br /> <span className=''> Explore the <span
         className="text-yellow-400"
         >
         vibrant events
