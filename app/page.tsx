@@ -1,6 +1,9 @@
 import Landingpage from "@/components/landingpage/Landingpage";
 
-export default function Home() {
+
+export default async function Home() {
+
+
   return (
     
       <Landingpage/>

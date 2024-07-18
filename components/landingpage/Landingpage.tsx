@@ -1,6 +1,9 @@
 
-
-export default function Landingpage() {
+import { getServerSession } from "next-auth"
+import { GetSessionParams } from "next-auth/react"
+export default async function Landingpage() {
+  const user = await getServerSession()
+  console.log(user?.user?.name)
   return (
     <div className="h-full ">
      <div className='h-[28rem] w-full'>
@@ -17,6 +20,7 @@ export default function Landingpage() {
       className='object-cover object-center h-full w-full'
     />
   </div>
+  {user?.user?.name}
     </div>
   )
 }
