@@ -13,7 +13,7 @@ import SheetContentClient from "./SheetContentClient";
 export default async function Header() {
 
   return (
-    <div className=" xl:px-16  bg-brand fixed w-full justify-between flex">
+    <div className=" xl:px-16  bg-brand fixed z-10 w-full justify-between flex">
       <section className="flex py-4 ml-12 justify-center items-center w-2/12 ">
         <Image src={ticket} alt="" width={40} height={55} />
         <p className="font-bold text-xl text-yellow-400">Easevent </p>

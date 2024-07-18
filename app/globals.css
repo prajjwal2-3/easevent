@@ -67,3 +67,7 @@
       @apply bg-background text-foreground;
     }
   }
+
+  .overflow-x-scroll::-webkit-scrollbar {
+    width: 0px; 
+  }

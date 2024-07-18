@@ -12,7 +12,9 @@ export default async function Home() {
 
   return (
     
-      <Landingpage/>
+      <div className="w-full">
+        <Landingpage/>
+      </div>
     
   );
 }
