@@ -1,6 +1,5 @@
 
 import { getServerSession } from "next-auth"
-import { GetSessionParams } from "next-auth/react"
 export default async function Landingpage() {
   const user = await getServerSession()
   console.log(user?.user?.name)

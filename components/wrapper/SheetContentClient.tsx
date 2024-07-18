@@ -2,15 +2,12 @@
 
 import { usePathname } from "next/navigation"
 
-import { signOut } from "next-auth/react"
-import { useSession } from "next-auth/react"
+
 import Link from "next/link"
 import { Separator } from "../ui/separator"
 export default function SheetContentClient() {
     const pathname = usePathname()
-    const user = useSession()
-    // const [userr,setuser]= useState<string|null|undefined>('')
-   console.log( user.status)
+
     let actualroute = pathname==='/'?'/':pathname.slice(1)
     const routes = ['/','Events','About','Contact']
   return (
@@ -30,25 +27,7 @@ export default function SheetContentClient() {
       
       </>
      ))}
-     <div className="flex flex-col justify-center items-center h-full gap-6">
-      {
-        user.status==='authenticated'?
-        <>
-        <button className="font-medium text-black mx-4">Create Event</button>
-
-       <button className="font-medium text-black" onClick={()=>{
-        signOut()
-      }}>Sign Out</button>
-      
-      
-        </>:
-         <Link href='/signin'>
- <button className="font-medium text-black">Login</button>
- </Link>
-      }
-      
-     
-    </div>
+    
     </div>
   )
 }
