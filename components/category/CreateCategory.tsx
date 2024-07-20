@@ -1,21 +1,29 @@
-'use client'
-import React, { useState } from 'react';
-import { addCategory } from '@/lib/actions/category.actions';
+"use client";
+import React, { useState } from "react";
+import { addCategory } from "@/lib/actions/category.actions";
 import { Button } from "@/components/ui/button";
-import { Card,CardContent,CardDescription,CardHeader,CardTitle } from '../ui/card';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Label } from '../ui/label';
+import { Label } from "../ui/label";
 
-
-export default function CategoryForm() {
-  const [name, setName] = useState('');
+export default function CategoryForm({setCategories}:{
+  setCategories:React.Dispatch<React.SetStateAction<{ name: string; }[]>>
+}) {
+  const [name, setName] = useState("");
   const { toast } = useToast();
 
   async function onSubmit() {
-
-    
-    if (name.trim() === '') {
+    if (name.trim() === "") {
       toast({
         title: "Error",
         description: "Category name is required",
@@ -25,13 +33,13 @@ export default function CategoryForm() {
     }
 
     try {
-      await addCategory(name)
+      await addCategory(name);
       toast({
         title: "Success",
         description: `Category ${name} created successfully`,
-        
       });
-      setName('');
+      setName("");
+      setCategories(e=>[...e,{name:name}])
     } catch (error) {
       toast({
         title: "Error",
@@ -42,30 +50,42 @@ export default function CategoryForm() {
   }
 
   return (
-    
-              <Card className='mx-auto max-w-sm'>
-                <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Create a Category</CardTitle>
-        <CardDescription>
-          If you think your event category does not matches with default category you can create a new category here.
-        </CardDescription>
-      </CardHeader>
-                <CardContent className='space-y-4'>
-
-                <div className="">
-                  <Label>Category</Label>
-                 <Input 
-                  placeholder="Enter category name" 
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  maxLength={255}
-                />
-              
-       
-               </div>
-               <Button type="submit" onClick={onSubmit}>Create Category</Button>
-                </CardContent>
-              </Card>
-      
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Add Category</Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add Category</DialogTitle>
+          <DialogDescription>
+            If you think your event category is not listed here, You can add it.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="flex flex-col  gap-4">
+            <Label htmlFor="name" className="text-left">
+              Category
+            </Label>
+            <Input
+              placeholder="Enter category name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              maxLength={255}
+            />
+          </div>
+        </div>
+        <DialogFooter className="">
+        <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+          <Button type="submit" onClick={onSubmit}>
+            Create Category
+          </Button>
+          
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

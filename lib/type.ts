@@ -1,3 +1,5 @@
+
+
 export type createEventType={
     title:string,
     description:string,
@@ -10,4 +12,13 @@ export type createEventType={
     venue:string,
     categoryId:number,
     authorId:number
+}
+
+export type category={
+    id:number,
+    name:string
+}
+
+export type categoryList={
+    categories :category[]
 }

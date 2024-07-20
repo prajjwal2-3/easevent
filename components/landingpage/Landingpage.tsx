@@ -51,7 +51,7 @@ export default async function Landingpage() {
           ))}
         </section>
       </div>
-      <CategoryForm/>
+     
     </div>
   );
 }
