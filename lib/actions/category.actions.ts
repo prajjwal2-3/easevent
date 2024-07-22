@@ -45,3 +45,23 @@ export async function getAllCategory() {
     throw new Error(`Failed to get all category: ${err}`);
   }
 }
+
+export async function getCategoryByName(name: string) {
+  if (!name) {
+    throw new Error(`No name provided`);
+  }
+  try {
+    const category = await prisma.category.findUnique({
+      where: {
+        name,
+      },
+    });
+
+    if (!category) {
+      throw new Error(`No category exist with name: ${name}`);
+    }
+    return category;
+  } catch (err) {
+    throw new Error(`Failed to get Category ${err}`);
+  }
+}

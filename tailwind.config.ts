@@ -27,7 +27,7 @@ const config = withUt({
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#2B293D",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {

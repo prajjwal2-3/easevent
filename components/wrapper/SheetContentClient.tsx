@@ -27,10 +27,12 @@ export default function SheetContentClient() {
       
       </>
      ))}
-     <Button>
+     <Link href='/createEvent' className="w-full">
+     <Button className="bg-brand">
       Create Event
      </Button>
-    <Button onClick={()=>{
+     </Link>
+    <Button className="bg-brand" onClick={()=>{
       signOut()
     }}>
       Sign Out

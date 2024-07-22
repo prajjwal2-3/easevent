@@ -35,6 +35,7 @@ import { Textarea } from "../ui/textarea";
 import useEventDetailsStore from "@/store/eventDetails";
 import PriceForm from "./PriceForm";
 import Preview from "./Preview";
+import PublishEvent from "./PublishEvent";
 export default function CreateEvent() {
   const [pageIndex, setpageIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -90,7 +91,7 @@ if(type==='start'){
   }
   function handlePageChange(step: number) {
     if (step === 1) {
-      setpageIndex(pageIndex === steps.length ? pageIndex : pageIndex + 1);
+      setpageIndex(pageIndex === steps.length-1 ? pageIndex : pageIndex + 1);
     } else {
       setpageIndex(pageIndex === 0 ? pageIndex : pageIndex - 1);
     }
@@ -99,16 +100,16 @@ if(type==='start'){
   return (
     <div className="py-10 xl:px-20 px-5 flex flex-col w-full justify-center items-center gap-16">
       <p className="text-3xl text-textbrand w-full text-left font-medium">
-        Create a New Event
+        Create a New Event 
       </p>
 
       <Stepper count={steps} />
-      <Preview pageIndex={pageIndex}/>
-      <Card className={`xl:w-8/12 w-full  border-none shadow-none ${pageIndex===0?'':'hidden'}`}>
-        <CardHeader>
+      
+      <div className={`xl:w-8/12 w-full   border-none shadow-none ${pageIndex===0?'':'hidden'}`}>
+        <CardHeader className=" px-0">
           <CardTitle>Event details</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-0">
           <form>
             <div className="flex flex-col w-full gap-4">
               <div className="flex flex-col space-y-1.5">
@@ -205,14 +206,11 @@ if(type==='start'){
             </div>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button variant="outline">Cancel</Button>
-          <Button>Deploy</Button>
-        </CardFooter>
-      </Card>
+      </div>
       <PriceForm pageIndex={pageIndex}/>
       <Uploadbutton pageIndex={pageIndex}/>
-      <section className="flex w-full justify-between">
+      <Preview pageIndex={pageIndex}/>
+      <section className="flex w-full items-center justify-between">
         <Button
           onClick={() => {
             handlePageChange(0);
@@ -220,13 +218,18 @@ if(type==='start'){
         >
           Previous Page
         </Button>
+        <p className="font-medium text-slate-800">Step {pageIndex+1} of {steps.length}</p>
+
+        {pageIndex === steps.length-1 ? <PublishEvent/>:
         <Button
-          onClick={() => {
-            handlePageChange(1);
-          }}
-        >
-          Next Page
-        </Button>
+        onClick={() => {
+          handlePageChange(1);
+        }}
+      >
+        Next Page
+      </Button>
+      }
+        
       </section>
     </div>
   );

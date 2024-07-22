@@ -15,20 +15,20 @@ export default function PriceForm({pageIndex}:{
   return (
     <div className={`mt-5  ${pageIndex===2?'flex':'hidden'} flex-col gap-3 w-full`}>
         <p className="text-2xl font-medium text-textbrand">What type of event are you running?</p>
-      <section className="flex flex-row">
+      <section className="flex flex-row justify-between">
       <div onClick={()=>{
         setIsPaid(true)
-      }} className= {`h-40 w-5/12 xl:w-3/12 m-4 cursor-pointer rounded-lg border flex flex-col ${isPaid?'bg-slate-100 border-brand':''} items-center justify-center`}>
+      }} className= {`h-40 w-[45%] xl:w-3/12 xl:m-4 cursor-pointer rounded-lg border flex flex-col ${isPaid?'bg-slate-100 border-brand':''} items-center justify-center`}>
       <Image src={paid} alt=''width={60} height={60}/>
       <p className='font-medium'>Ticketed Event</p>
-      <p className='text-sm m-0.5'>My event requires ticket for entry</p>
+      <p className='text-xs xl:m-0.5 p-0.5 text-center'>My event requires ticket for entry</p>
       </div>
       <div onClick={()=>{
         setIsPaid(false)
-      }} className={`h-40 w-5/12 xl:w-3/12 m-4 cursor-pointer rounded-lg border flex flex-col ${!isPaid?'bg-slate-100 border-brand':''} items-center justify-center`}>
+      }} className={`h-40 w-[45%] xl:w-3/12 xl:m-4 cursor-pointer rounded-lg border flex flex-col ${!isPaid?'bg-slate-100 border-brand':''} items-center justify-center`}>
       <Image src={free} alt=''width={60} height={60}/>
       <p className='font-medium'>Free Event</p>
-      <p className='text-sm m-0.5'>I'm running a free event</p>
+      <p className='text-xs xl:m-0.5 p-0.5 text-center'>I'm running a free event</p>
       </div>
      
       </section>
