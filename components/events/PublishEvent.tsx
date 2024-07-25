@@ -33,9 +33,9 @@ export default function PublishEvent() {
         await createEvent({
           ...data,
           price: eventDetails.price || "",
-          isFree: eventDetails.isFree || false
+          isFree: eventDetails.isFree || true
         });
-        setEventDetails({title:'',description:'',imageUrl:'',startDateTime:new Date,endDateTime:new Date,price:'',isFree:false,url:'',venue:'',category:'',authorId:0});
+        setEventDetails({title:'',description:'',imageUrl:'',startDateTime:new Date,endDateTime:new Date,price:'',isFree:true,url:'',venue:'',category:'',authorId:0});
 
         }catch(err){
             toast({
@@ -45,8 +45,6 @@ export default function PublishEvent() {
               });
         }
    }
- 
-    
   return (
     <div>
       <Button onClick={publishEvent}>

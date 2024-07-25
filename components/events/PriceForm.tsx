@@ -25,6 +25,7 @@ export default function PriceForm({pageIndex}:{
       </div>
       <div onClick={()=>{
         setIsPaid(false)
+        setEventDetails({isFree:true})
       }} className={`h-40 w-[45%] xl:w-3/12 xl:m-4 cursor-pointer rounded-lg border flex flex-col ${!isPaid?'bg-slate-100 border-brand':''} items-center justify-center`}>
       <Image src={free} alt=''width={60} height={60}/>
       <p className='font-medium'>Free Event</p>

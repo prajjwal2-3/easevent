@@ -1,86 +1,143 @@
-"use client";
 
-import axios from "axios";
-import { signIn, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+"use client";
+import { Button } from "@/components/ui/button";
+import { z } from "zod";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  name_validator,
+  email_validator,
+  password_validator,
+} from "@/lib/Validator";
+import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
-
-export default function RegisterForm() {
-  useEffect(() => {
-    signOut({
-      redirect: false,
-    });
-  }, []);
-  const { toast } = useToast();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [loading, setLoading] = useState(false);
-
+const uservalidation = z.object({
+  username: name_validator,
+  email: email_validator,
+  firstName: name_validator,
+  lastName: name_validator,
+  password: password_validator,
+});
+export default function Signup() {
   const router = useRouter();
-
-  const register = async () => {
-    setLoading(true);
-    try {
-      await axios.post("/api/register", {
-        email,
-        password,
-      });
-
-      toast({ title: "Successfully registered" });
-
-      router.push("/signin");
-    } catch (err: any) {
-      console.log(err);
-      toast({ title: err?.response?.data });
-    } finally {
-      setLoading(false);
+  const { toast } = useToast();
+  const [user, setuser] = useState({
+    email: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+  });
+  const [isloading, setisloading] = useState(false);
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setuser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  }
+  async function registerUser() {
+    const validation = uservalidation.safeParse(user);
+    if (!validation.success) {
+      const errors = validation.error.errors.map((err) => err.message);
+      toast({ title: errors.toLocaleString() });
     }
-  };
-
+    try {
+      setisloading(true);
+      await axios.post("/api/register", { user });
+      toast({ title: "Registration Successful" });
+      router.push("/signin");
+    } catch (err) {
+      setisloading(false);
+      toast({ title: `Register ERR ${err}` });
+    } finally {
+      setisloading(false);
+    }
+  }
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Signup</CardTitle>
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>Sign Up </CardTitle>
         <CardDescription>
-          Enter your email and password to create to your account
+          Enter your details below to create your account.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="Email">Email</Label>
-            <Input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              disabled={loading}
-            />
+        <form>
+          <div className="grid w-full items-center gap-4">
+            <div className="flex flex-col space-y-1.5">
+              <section>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  name="email"
+                  value={user.email}
+                  id="email"
+                  placeholder="Jackdaniels@gmail.com"
+                  onChange={handleChange}
+                />
+              </section>
+              <section>
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  name="username"
+                  value={user.username}
+                  id="username"
+                  placeholder="Jackdaniels@cool"
+                  onChange={handleChange}
+                />
+              </section>
+            </div>
+            <div className="flex flex-row space-x-1.5">
+              <section>
+                <Label htmlFor="Firstname">First Name</Label>
+                <Input
+                  name="firstName"
+                  value={user.firstName}
+                  id="firstname"
+                  placeholder="Jack"
+                  onChange={handleChange}
+                />
+              </section>
+              <section>
+                <Label htmlFor="lastname">Last Name</Label>
+                <Input
+                  name="lastName"
+                  value={user.lastName}
+                  id="lastname"
+                  placeholder="Daniel"
+                  onChange={handleChange}
+                />
+              </section>
+            </div>
+            <section>
+              <Label htmlFor="password">Password</Label>
+              <Input
+                name="password"
+                value={user.password}
+                id="password"
+                placeholder="Jackdaniel@1123"
+                type="password"
+                onChange={handleChange}
+              />
+            </section>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              disabled={loading}
-              type="password"
-            />
-          </div>
-          <Button type="submit" onClick={register} className="w-full">
-            Sign Up
-          </Button>
-        </div>
+        </form>
       </CardContent>
+      <CardFooter className="flex ">
+        <Button type="submit" onClick={registerUser} className="w-full">
+          Sign Up
+        </Button>
+      </CardFooter>
     </Card>
   );
 }
