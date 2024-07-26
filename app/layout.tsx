@@ -30,8 +30,8 @@ export default async function RootLayout({
         <NextAuthSessionProvider session={session} >
           {session && <Header />}
           <main className="pt-[3.9rem]">{children}</main>
-        
-          <Footer/>
+        {session && <Footer/>}
+          
         </NextAuthSessionProvider>
        
       </div>
