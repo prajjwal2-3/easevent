@@ -1,16 +1,19 @@
 import React from 'react'
 import Image from 'next/image'
 import ion from '../../public/ion_ticket.svg'
+import { Event } from '@/lib/type'
+import { category } from '@/lib/type'
 import Favtoggle from './Favtoggle'
 export default function EventCard({ event, getCategory }:{
-    event:any,
+    event:Event,
     getCategory:any
 }) {
  
   return (
     <div className="w-full bg-gray-200 rounded-xl cursor-pointer hover:shadow-lg flex flex-col">
     <section className="relative">
-    <Favtoggle id={event.id}/>
+    <Favtoggle id={event.id} className={'p-4'}/>
+    
       <p className="absolute bottom-0 left-0 text-white text-xs sm:text-sm font-medium bg-yellow-400 px-2 rounded-tr-lg">
         {getCategory(event.categoryId)}
       </p>
@@ -46,6 +49,7 @@ export default function EventCard({ event, getCategory }:{
         </section>
       </section>
       <section className="w-3/4 sm:w-10/12">
+    
         <p className="text-sm sm:text-lg font-semibold text-slate-800 line-clamp-2">
           {event.title}
         </p>

@@ -19,3 +19,24 @@ export async function getUserByEmail(email: string|null|undefined) {
         throw new Error(`Failed to get user ${err}`);
     }
 }
+
+export async function getUserById(id:number){
+    if(!id){
+        throw new Error(`no id provided`);
+    }
+
+    try{
+        const user = await prisma.user.findUnique({
+            where:{
+                id
+            }
+        })
+
+        if(!user){
+            throw new Error(`no user found with id: ${id}`)
+        }
+        return user
+    }catch(err){
+        throw new Error(`Failed to get user ${err}`)
+    }
+}

@@ -19,7 +19,7 @@ const FooterSection = ({ title, items }:{
 
 const Footer = () => {
   return (
-    <footer className="bg-[#1f1f2e] text-white py-10 px-4 md:px-6 lg:px-8">
+    <footer className="bg-[#1f1f2e] text-white py-10  mt-6 md:mt-8 lg:mt-10 px-4 md:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           <FooterSection 

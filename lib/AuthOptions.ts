@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import prisma from "./postgresdb";
 import bcrypt from "bcrypt";
 
+
 export const authOptions: AuthOptions = {
   providers: [
     Credentials({

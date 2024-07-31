@@ -1,6 +1,7 @@
 import { getAllEvents } from "@/lib/actions/events.action";
 import { getCategorybyId } from "@/lib/actions/category.actions";
 import EventCard from "./EventCard";
+import Link from "next/link";
 export default async function EventsPage() {
     const events = await getAllEvents();
     
@@ -13,7 +14,9 @@ export default async function EventsPage() {
         
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-16">
         {events.map((event, index) => (
-          <EventCard key={index} event={event} getCategory={getCategory} />
+          <Link key={index} href={`/events/${event.id}`}>
+          <EventCard  event={event} getCategory={getCategory} />
+          </Link>
         ))}
       </div>
       
