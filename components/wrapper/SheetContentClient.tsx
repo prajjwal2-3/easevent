@@ -11,14 +11,14 @@ export default function SheetContentClient() {
     const pathname = usePathname()
    const user = useSession()
     let actualroute = pathname==='/'?'/':pathname.slice(1)
-    const routes = ['/','Events','About','Contact']
+    const routes = ['/','/Events','/About','/Contact']
   return (
     <div className=" text-black flex flex-col gap-2">
       <p className="text-3xl font-semibold text-slate-800">Easevent</p>
       <Separator/>
      {routes.map((e)=>( 
       <>
-      <Link href={e.toLowerCase()}>{e==='/'?'Home':e}</Link>
+      <Link href={e.toLowerCase()}>{e==='/'?'Home':e.slice(1)}</Link>
       {
         actualroute===e.toLowerCase()?
         <div 

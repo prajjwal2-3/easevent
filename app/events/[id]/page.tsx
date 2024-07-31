@@ -2,11 +2,13 @@ import { getEventbyId } from "@/lib/actions/events.action";
 import React from 'react';
 import ticketdark from '../../../public/ticketdark.svg'
 import Image from "next/image";
-import { Calendar,MapPin } from 'lucide-react';
+import { Calendar,MapPin,ArrowBigLeft } from 'lucide-react';
 import { Avatar,AvatarFallback,AvatarImage } from "@/components/ui/avatar";
 import { getCategorybyId } from "@/lib/actions/category.actions";
 import { getUserById } from "@/lib/actions/user.actions";
+import Link from "next/link";
 import Favtoggle from "@/components/events/Favtoggle";
+
 type params={
 id:number
 }
@@ -20,7 +22,10 @@ export default async function EventPage({ params }:{params:params}) {
   }
 
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <div className="w-full h-full flex flex-col items-center justify-center">
+      <Link className="w-full h-10 xl:hidden  " href='/events'>
+        <p className="mt-3 mx-3 font-semibold">Go back to Events</p>
+      </Link>
       <div className="border-[6px] m-2 xl:m-5 xl:w-8/12 max-w-2xl rounded-2xl flex flex-col  gap-5 p-2 xl:p-5 min-h-[48rem] h-fit">
         <div className="relative w-full h-48 xl:h-96 mx-auto overflow-hidden rounded-xl">
           <Image
