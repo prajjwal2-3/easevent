@@ -1,7 +1,10 @@
-
-"use client";
-import { Button } from "@/components/ui/button";
+'use client'
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { z } from "zod";
+import axios from "axios";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,15 +15,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import {
   name_validator,
   email_validator,
   password_validator,
 } from "@/lib/Validator";
-import axios from "axios";
-import { useToast } from "@/components/ui/use-toast";
+
 const uservalidation = z.object({
   username: name_validator,
   email: email_validator,
@@ -28,6 +29,7 @@ const uservalidation = z.object({
   lastName: name_validator,
   password: password_validator,
 });
+
 export default function Signup() {
   const router = useRouter();
   const { toast } = useToast();
@@ -39,6 +41,7 @@ export default function Signup() {
     password: "",
   });
   const [isloading, setisloading] = useState(false);
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setuser((prevUser) => ({
@@ -46,11 +49,13 @@ export default function Signup() {
       [name]: value,
     }));
   }
+
   async function registerUser() {
     const validation = uservalidation.safeParse(user);
     if (!validation.success) {
       const errors = validation.error.errors.map((err) => err.message);
       toast({ title: errors.toLocaleString() });
+      return;
     }
     try {
       setisloading(true);
@@ -58,16 +63,27 @@ export default function Signup() {
       toast({ title: "Registration Successful" });
       router.push("/signin");
     } catch (err) {
-      setisloading(false);
       toast({ title: `Register ERR ${err}` });
     } finally {
       setisloading(false);
     }
   }
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signIn("google");
+      if (result?.error) {
+        toast({ title: `Google Sign-In Error: ${result.error}` });
+      }
+    } catch (error) {
+      toast({ title: `Google Sign-In Error: ${error}` });
+    }
+  };
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>Sign Up </CardTitle>
+        <CardTitle>Sign Up</CardTitle>
         <CardDescription>
           Enter your details below to create your account.
         </CardDescription>
@@ -133,9 +149,32 @@ export default function Signup() {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex ">
-        <Button type="submit" onClick={registerUser} className="w-full">
-          Sign Up
+      <CardFooter className="flex flex-col space-y-2">
+        <Button
+          type="submit"
+          onClick={registerUser}
+          className="w-full"
+          disabled={isloading}
+        >
+          {isloading ? "Signing Up..." : "Sign Up"}
+        </Button>
+        <div className="relative w-full">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
+          </div>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleGoogleSignIn}
+          className="w-full"
+        >
+          Sign in with Google
         </Button>
       </CardFooter>
     </Card>
